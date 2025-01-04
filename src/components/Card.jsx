@@ -1,6 +1,14 @@
 import React from "react";
+import { useState } from "react";
 
 const Card = () => {
+  const [task, setTask] = useState("");
+  const [todos, setTodos] = useState([]);
+
+  const handleInputChange = (e) => {
+    setTask(e.target.value);
+  };
+
   return (
     <>
       <div className="flex flex-col justify-center items-center bg-gray-500">
