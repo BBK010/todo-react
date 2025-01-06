@@ -11,7 +11,7 @@ const Card = () => {
 
   const handleSubmit = () => {
     if (task.trim() === "") return;
-    setTodos([...todos, task]);
+    setTodos([{ id: Date.now(), text: task }, ...todos]);
     setTask("");
   };
 
@@ -21,33 +21,41 @@ const Card = () => {
         <div>
           <h3 className="text-white text-2xl  mt-4 mb-4 ">My ToDo</h3>
         </div>
-        <div className="ml-4  mb-4">
+        <div className="flex gap-3 w-full max-w-2xl">
           <input
             type="text"
             placeholder="Enter the task"
             value={task}
-            onChange={handleInputChange}
-            className="p-2 rounded-md"
+            onChange={(e) => setTask(e.target.value)}
+            onClick={handleSubmit}
+            className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
           />
-          <input
-            type="checkbox"
-            className=" ml-8 rounded-full h-5 w-5 cursor-pointer"
-          />
-        </div>
-        <div className="mb-4 rounded-full h-5 w-5 cursor-pointer">
           <button
             onClick={handleSubmit}
-            className="bg-green-500 text-white py-2 px-4 rounded-md"
+            disabled={!task.trim()}
+            className="whitespace-nowrap bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-6 rounded-lg transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 active:transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Submit
           </button>
         </div>
-        <div className="flex flex-col items-center">
-          {todos.map((todo, index) => (
-            <div key={index} className="bg-gray-200 p-4 rounded-md mb-3">
-              {todo}
+
+        <div className="w-full max-w-xl">
+          {todos.length === 0 ? (
+            <p className="text-gray-400 text-center">No tasks added yet. 📜</p>
+          ) : (
+            <div className="space-y-3">
+              {todos.map((todo, index) => (
+                <div
+                  key={todo.id}
+                  className="bg-gray-800 text-white p-3  mt-5 rounded-lg flex justify-between items-center shadow-md"
+                >
+                  <span className="font-semibold text-lg">
+                    {index + 1}. {todo.text}
+                  </span>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
       </div>
     </>
